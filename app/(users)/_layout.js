@@ -2,6 +2,8 @@ import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable } from 'react-native';
 import { useAuth} from '@clerk/clerk-expo';
+import { BlurView } from 'expo-blur';
+import { StyleSheet } from 'react-native';
 export const LogoutButton = () => {
   const { signOut } = useAuth();
 
@@ -23,17 +25,33 @@ const TabsPage = () => {
     <Tabs
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#6c47ff',
+         
+        //   backgroundColor: 'lightgreen',
         },
+        headerBackground:()=>(
+            <BlurView
+intensity={90}
+style={{
+... StyleSheet.absoluteFillObject,
+borderTopLeftRadius: 20,
+borderTopRightRadius: 20,
+overflow: "hidden",
+backgroundColor: "transparent",
+}}
+/>
+        ),
         headerTintColor: '#fff',
+        tabBarActiveTintColor:'green',
       }}>
       <Tabs.Screen
         name="UserHomePage"
         options={{
+        
+        //   headerStyle:{opacity:500},
           headerTitle: 'Home',
           tabBarIcon: ({ color, size }) => <Ionicons name="home-outline" size={size} color={color} />,
           tabBarLabel: 'Home',
-          headerRight: () => <Ionicons name='person-circle' size={42} color='blue' />
+          headerRight: () => <Ionicons name='person-circle' size={42} color='white' />
                   }}
         redirect={!isSignedIn}
       />
@@ -41,7 +59,10 @@ const TabsPage = () => {
         name='Profile/[id]'
         
         options={{
-        
+          href:{
+            pathname:'Profile/[id]',
+            params:{id:1}
+          },
           headerTitle: 'My Profile',
           tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" size={size} color={color} />,
           tabBarLabel: 'My Profile',
